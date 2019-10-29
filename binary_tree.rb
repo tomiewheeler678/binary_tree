@@ -7,7 +7,7 @@ class BinaryTree
     @right = right
   end
 
-  def insert(item, value)
+  def search(item, value)
     if item.payload == value
       return item.payload 
     elsif
@@ -19,23 +19,43 @@ class BinaryTree
     end
   end
 
-  def inOrder(item)
-    if item.payload == nil
-      puts "exit procedure"
-    elsif
-      item.left
-        inOrder(item.left)
-      puts item.value
-    else
-      item.right
-        inOrder(item.right)
-      puts item.value
+  def sort(node)
+    trunk = BinaryTree.new(node.shift)
+    while !node.empty?
+      @value = trunk
+      figure = node.shift
+      while @value
+        if figure < @value.payload
+          if @value.left.nil?
+            new_value = BinaryTree.new(figure)
+            @value.left = new_value
+            @value = new_value
+          else
+            @value = @value.left
+          end
+        else
+          if @value.right.nil?
+            new_value = BinaryTree.new(figure)
+            @value.right = new_value
+            @value = new_value
+          else
+            @value = @value.right
+          end
+        end
+      end
     end
+    new_figure = build_figure(trunk)
+    puts new_figure
   end
 
-  def treeSort(items)
-    item = []
 
+  def build_treeSort(value)
+    return [] if value.nil?
+    results = []
+    results.concat build_treeSort(value.left)
+    results << value.payload
+    results.concat build_treeSort(value.right)
+    results
   end
 end
 
@@ -47,4 +67,5 @@ three = BinaryTree.new(3, nil, six)
 two   = BinaryTree.new(2, four, five)
 trunk = BinaryTree.new(1, two, three)
 
-inOrder(item)
+figure = [7, 4, 9, 1, 6, 14, 10]
+sort(figure)
